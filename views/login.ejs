@@ -1,0 +1,25 @@
+<%- include("partials/header.ejs") -%>
+
+<main>
+    <div class="box" id="heading" style="background-color: #a683e3;">
+        <h1>Login</h1>
+    </div>
+    <form action="/login" method="POST" class="mt-5">
+        <div class="mb-3 d-flex flex-wrap align-content-center flex-column">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control my-3" id="username" name="username" required>
+        </div>
+        <div class="mb-3 d-flex flex-wrap align-content-center flex-column">
+            <label for=" password" class="form-label">Password</label>
+            <input type="password" class="form-control my-3" id="password" name="password" required>
+        </div>
+        <button type="submit" id="login-button" class="btn btn-custom">Login</button>
+        <div class="my-5 d-flex flex-wrap align-content-center flex-column">
+            <div class="message"><%= message %></div>
+        </div>
+    </form>
+</main>
+
+
+
+<%- include("partials/footer.ejs") -%>

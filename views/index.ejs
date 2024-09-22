@@ -1,0 +1,77 @@
+<%- include('partials/header.ejs'); -%>
+
+<body style="background-image: -webkit-linear-gradient(64.5deg, <%= color %> 50%, #e4e9fd 50%);">
+  <main>
+    <div class="d-flex flex-wrap justify-content-center py-3 mb-5">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="/daily" class="nav-link"><button
+              class="btn btn-custom btn-daily">Daily</button></a>
+        </li>
+        <li class="nav-item"><a href="/weekly" class="nav-link"><button
+              class="btn btn-custom btn-weekly">Weekly</button></a></li>
+        <li class="nav-item"><a href="/monthly" class="nav-link"><button
+              class="btn btn-custom btn-monthly">Monthly</button></a></li>
+        <li class="nav-item"><a href="/yearly" class="nav-link"><button
+              class="btn btn-custom btn-yearly">Yearly</button></a></li>
+      </ul>
+      <ul class="ms-auto me-5">
+        <li class="nav-item logout"><a href="/logout" class="nav-link"><button
+              class="btn btn-link btn-lg">Logout</button></a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="box" id="heading" style="background-color: <%= color %>;">
+      <h1>
+        <%= listTitle %>
+      </h1>
+    </div>
+    <div class="box">
+      <% for(let item of listItems){%>
+      <div class="item">
+        <form action="/delete" method="post">
+          <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= item.id %>"
+            style="accent-color: <%= color %>;">
+        </form>
+
+        <p id="title<%=item.id%>">
+          <%= item.title %>
+        </p>
+
+        <form class="edit" action="/edit" method="post">
+          <input type="hidden" name="updatedItemId" value="<%= item.id %>">
+          <input id="input<%=item.id%>" type="text" name="updatedItemTitle" value="<%= item.title %>" autocomplete="off"
+            autofocus="true" hidden="true" />
+          <button id="done<%=item.id%>" class="edit" type="submit" hidden><svg xmlns="http://www.w3.org/2000/svg"
+              width="28" height="28" fill=<%= color %> class="bi bi-check2" viewBox="0 0 16 16">
+              <path
+                d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0" />
+            </svg></button>
+        </form>
+        <button id="edit<%=item.id%>" class="edit" onclick="handler('<%=item.id%>')"><svg
+            xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill=<%= color %> class="bi bi-pencil-square"
+            viewBox="0 0 16 16">
+            <path
+              d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+            <path fill-rule="evenodd"
+              d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+          </svg></button>
+      </div>
+      <% } %>
+
+      <form class="item" action="/add" method="post">
+        <input type="text" name="newItem" placeholder="New Item" autocomplete="off" autofocus="true" />
+        <button class="add" type="submit" name="list" value=<%=listTitle %>
+          style="background-color: <%= color %>;">+</button>
+      </form>
+    </div>
+
+    <script>
+      function handler(id) {
+        document.getElementById("title" + id).setAttribute("hidden", true)
+        document.getElementById("edit" + id).setAttribute("hidden", true)
+        document.getElementById("done" + id).removeAttribute("hidden")
+        document.getElementById("input" + id).removeAttribute("hidden")
+      }
+    </script>
+    <%- include('partials/footer.ejs'); -%>
